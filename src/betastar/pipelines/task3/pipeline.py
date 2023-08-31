@@ -7,8 +7,6 @@ from kedro.pipeline import Pipeline, node, pipeline
 from .nodes import (
     train_random_forest_classifier,
     pi_forest,
- #   forward_method,
-    my_permutation_important_features
 )
 
 def create_pipeline(**kwargs) -> Pipeline:
