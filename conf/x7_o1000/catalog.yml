@@ -1,0 +1,117 @@
+# nodes and edges
+graph:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/edges/edge_x7.dat
+  load_args:
+    engine: python
+    sep: '\t'
+    names: [in, out]
+
+# community and non community features
+data:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/data/x7.csv
+
+# preprocessed graph - start from 0
+graph_pre:
+  type: pandas.CSVDataSet
+  filepath: data/02_graphs/x7_pre.csv
+
+# for struct2vec you need in and out columns without header and with space as separator
+graph_struct:
+  type: pandas.CSVDataSet
+  filepath: struc2vec/graph/beta/x7.csv
+  save_args:
+    sep: ' '
+    header: False
+    index: False
+
+# node2vec embedding data 
+embedded_graph_node2vec:
+  type: pandas.CSVDataSet
+  filepath: data/03_embeddings/x7_node2vec_embedding.csv
+
+# struc2vec embedding data
+embedded_graph_struc2vec:
+  type: pandas.CSVDataSet
+  filepath: struc2vec/emb/x7.emb
+  load_args:
+    engine: python
+    sep: ' '
+    skiprows: 1
+# after preprocessing data for models
+model_data:
+  type: pandas.CSVDataSet
+  filepath: data/04_models/x7_model.csv
+
+################### EMBEDDINGS END
+
+############# TASK 1 ########################
+
+X_train_linear:
+  type: pandas.ParquetDataSet
+  filepath: data/04_models/x7_X_train_task1.parquet
+
+X_test_linear:
+  type: pandas.ParquetDataSet
+  filepath: data/04_models/x7_X_test_task1.parquet
+
+task1_predictions:
+  type: pickle.PickleDataSet
+  filepath: data/04_models/x7_task1_predictions.pickle
+
+task1_results:
+  type: pandas.CSVDataSet
+  filepath: data/05_reporting/x7_task1.csv
+
+######### TASK 2 #######################
+
+# train test for classification models
+X_train:
+  type: pandas.ParquetDataSet
+  filepath: data/04_models/x7_X_train.parquet
+
+y_train: 
+  type: pandas.ParquetDataSet
+  filepath: data/04_models/x7_y_train.parquet
+
+X_test:
+  type: pandas.ParquetDataSet
+  filepath: data/04_models/x7_X_test.parquet
+
+y_test:
+  type: pandas.ParquetDataSet
+  filepath: data/04_models/x7_y_test.parquet
+
+# models for each features set and for (sum of) embeddings
+task2_models:
+  type: pickle.PickleDataSet
+  filepath: data/04_models/x7_task2_models.pickle
+
+# metrics from classification models for all features
+task2_results:
+  type: pandas.CSVDataSet
+  filepath: data/05_reporting/x7_task2.csv
+  save_args:
+    index: False
+
+############ TASK 3 #########################
+
+# random forest feature importance for all features
+forest_FI:
+  type: pickle.PickleDataSet
+  filepath: data/04_models/x7_forest_FI.pickle
+
+# results for permutation importance for all features
+models_results_pi:
+  type: pandas.CSVDataSet
+  filepath: data/05_reporting/x7_task3.csv
+
+my_pi:
+  type: pandas.CSVDataSet
+  filepath: data/05_reporting/x7_task3_2.csv
+
+# model quality change for all community features
+forward_importance:
+  type: pickle.PickleDataSet
+  filepath: data/05_reporting/x7_forward_importance.pickle

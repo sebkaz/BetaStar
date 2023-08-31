@@ -1,0 +1,12 @@
+hyperparameters_tuning:
+  context_params:
+    package_name: x3
+    project_path: /Users/air/Desktop/Grafy/beta/x3
+    tags: []
+    parameters_name: best_params
+    max_workers: 1
+  tune_params:
+    max_evals: 2
+  metrics:
+    metrics_dict: scores
+    metric_name: roc_auc_score

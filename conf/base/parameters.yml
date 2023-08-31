@@ -1,0 +1,117 @@
+# if set false graph edges start from 1 - julia case
+zero_based_graph: false
+
+env: base
+
+emb_prefix: emb
+
+test_features:
+  - participation
+  - in_mod_deg
+
+embeddings:
+  - node2vec
+  - struc2vec
+
+# parameters for node2vec
+node2vec:
+  dimensions: 16
+  walk_length: 50
+  num_walks: 10
+  p: 1
+  q: 1
+  workers: 1
+  seed: 123
+
+test_size: 0.3
+
+# logistic regression with l2 penalty
+log_reg:
+  penalty: l2
+  C: 1.0
+  class_weight: balanced
+  solver: lbfgs
+  max_iter: 1000
+  fit_intercept: true
+  random_state: 2023
+  n_jobs: -1
+
+random_forest:
+  n_estimators: 1000
+  criterion: gini
+  n_jobs: -1
+  random_state: 2023
+  max_depth: 10
+  min_samples_split: 2
+  min_samples_leaf: 1
+
+lightgbm:
+  learning_rate: 0.1
+  objective: binary
+  boosting: gbdt
+  early_stopping_rounds: 10
+  force_col_wise: true
+  metric: 
+    - binary_logloss
+    - auc
+  bagging_seed: 2023
+
+xgboost:
+  booster: gbtree
+  random_state: 2023
+  objective: binary:logistic
+  base_score: 0.5
+  verbosity: 1
+  n_jobs: -1
+  eval_metric: auc
+  seed: 2023
+  early_stopping_rounds: 15
+
+
+cutoffs:
+  - 0.01
+  - 0.05
+  - 0.1
+
+
+permutation_importance:
+  n_repeat: 50
+  random_state: 2023
+
+
+lin_reg:
+  fit_intercept: true
+  n_jobs: -1
+
+ridge:
+  alpha: 1.0
+  fit_intercept: true
+  solver: auto
+  random_state: 2023
+  
+random_forest_reg:
+  n_estimators: 1000
+  criterion: squared_error
+  max_depth: 10
+  min_samples_split: 2
+  min_samples_leaf: 1
+  n_jobs: -1
+  random_state: 2023
+
+xgboost_reg:
+  n_estimators: 1000
+  max_depth: 10
+  learning_rate: 0.1
+  verbosity: 1
+  n_jobs: -1
+  random_state: 2023
+  eval_metric: 'rmse'
+
+lightgbm_reg:
+  boosting: gbdt
+  objective: regression
+  num_leaves: 10
+  metric: 
+    - l2
+    - l1
+  n_jobs: -1
