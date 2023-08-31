@@ -110,7 +110,7 @@ kl,linear_model,kendall,0.5182152238057779
 kl,ridge,r2_score,0.4362214289336188
 kl,ridge,spearmans,0.6963057901833812
 kl,ridge,kendall,0.5163236701755907
-kl,random_forest,r2_score,0.7111950466039912
+kl,random_forest,r2_score,0.7111950466039911
 kl,random_forest,spearmans,0.8395297229104399
 kl,random_forest,kendall,0.6780018869534828
 kl,xgboost,r2_score,0.8091771955793334
