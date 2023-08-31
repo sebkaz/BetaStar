@@ -109,12 +109,3 @@ forest_FI:
 models_results_pi:
   type: pandas.CSVDataSet
   filepath: data/05_reporting/amazon_task3.csv
-
-my_pi:
-  type: pandas.CSVDataSet
-  filepath: data/05_reporting/amazon_task3_2.csv
-
-# model quality change for all community features
-# forward_importance:
-#   type: pickle.PickleDataSet
-#   filepath: data/05_reporting/amazon_forward_importance.pickle
