@@ -11,6 +11,13 @@ pip install --upgrade pip setuptools
 pip install -r src/requirements.txt
 ```
 
+If the lightgbm error case:
+```bash
+brew install gcc 
+brew install libomp
+```
+Info from [webpage](https://github.com/microsoft/LightGBM/blob/master/docs/Installation-Guide.rst#apple-clang)
+
 ## Graphs datasets
 
 We possess a total of 10 datasets, each of which comprises two files situated in the `data/01_raw/` folder. 

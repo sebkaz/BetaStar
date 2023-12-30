@@ -7,7 +7,7 @@ using StatsBase
 using CSV
 
 # On error run:
-# run(`$(PyCall.python) -m pip install python-igraph`)
+#run(`$(PyCall.python) -m pip install python-igraph`)
 ig = pyimport("igraph")
 pyrandom = pyimport("random")
 

@@ -12,15 +12,9 @@ def create_pipeline(**kwargs) -> Pipeline:
         [
             node(
                 func=preprocess_graph,
-                inputs=["graph", "parameters"],
-                outputs="graph_pre",
+                inputs=["graph"],
+                outputs=["graph_pre","graph_struct"],
                 name="python_graph_preprocessing",
-            ),
-            node(
-                func=preprocess_graph,
-                inputs=["graph", "parameters"],
-                outputs="graph_struct",
-                name="input_for_struct2vec",
             ),
             node(
                 func=node2vec_embedding,

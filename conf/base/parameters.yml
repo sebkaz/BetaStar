@@ -1,6 +1,3 @@
-# if set false graph edges start from 1 - julia case
-zero_based_graph: false
-
 env: base
 
 emb_prefix: emb
@@ -20,8 +17,13 @@ node2vec:
   num_walks: 10
   p: 1
   q: 1
-  workers: 1
+  workers: 8
   seed: 123
+
+grid:
+  search: true
+  p: [1,2,3,5,7]
+  q: [1,2,3,5,7]
 
 test_size: 0.3
 

@@ -22,28 +22,16 @@ PROJECT_PATH = Path.cwd()
 
 
 # PREPROCESSING GRAPH
-def preprocess_graph(data, parameters: Dict[str, Any]) -> pd.DataFrame:
+def preprocess_graph(data: pd.DataFrame) -> pd.DataFrame:
     """check if the graph is zero based
-    use parameters.yml file to check if the graph is start from zero
-    zero_based_graph: false -> graph start from 1 (Julia case)
-    zero_based_graph: true -> graph start from 0 (Python case)
-
-    Automatise it for the future!!!
-    check if min value is 0 or 1
-
+    if not, change it to zero based
     """
-    if not parameters["zero_based_graph"]:
-        data = _change_first_element(data)
-    return data
+    if not ((0 in set(data["in"])) or (0 in set(data["out"]))):
+        logger.info("Your graph edges start from 1, let's change that")
+        data = data.apply(lambda x: x-1)
+    return data, data
 
-
-def _change_first_element(data: pd.DataFrame) -> pd.DataFrame:
-    logger.info("Your graph edges start from 1, let's change that")
-    data["in"] = data["in"] - 1
-    data["out"] = data["out"] - 1
-    return data
-
-
+# // TODO dodanie grida dla parametrow p i q
 def node2vec_embedding(data: pd.DataFrame, parameters: Dict[str, Any]) -> pd.DataFrame:
     """
     data: pd.DataFrame
@@ -58,26 +46,48 @@ def node2vec_embedding(data: pd.DataFrame, parameters: Dict[str, Any]) -> pd.Dat
     workers = 1 - must be 1 for reproducibility
 
     """
-    logger.info(
-        f"Using node2vec to embed the graph \
-        with {parameters['node2vec']['dimensions']} dimensions"
-    )
-    if "node2vec" not in parameters["embeddings"]:
-        return pd.DataFrame()
+    result = pd.DataFrame()
 
+    logger.info(
+        f"Using node2vec to embed the graph with {parameters['node2vec']['dimensions']} dimensions"
+    )
+
+    if "node2vec" not in parameters["embeddings"]:
+        return result
+    
     G = _load_networkx_graph(data)
-    g_emb = n2v(G, **parameters["node2vec"])
+
+    if not parameters['grid']['search']:
+        result = _one_n2v_p_q(G, parameters['node2vec']) 
+    else:
+        for p in parameters['grid']['p']:
+            for q in parameters['grid']['q']:
+                part = _one_n2v_p_q(G, parameters['node2vec'],p,q)
+                result = pd.concat([result, part], axis=1)
+    return result
+
+def _one_n2v_p_q(G, parameters, p=None, q=None):
+    if p is None:
+        p = parameters["p"]
+    else:
+        parameters["p"] = p
+    if q is None:
+        q = parameters["q"]
+    else:
+        parameters["q"] = q
+
+    g_emb = n2v(G, **parameters)
     mdl = g_emb.fit()
     emb_df = pd.DataFrame([mdl.wv.get_vector(str(n)) for n in G.nodes()], index=G.nodes)
     emb_df["index"] = emb_df.index
     emb_df.sort_values(by="index", inplace=True)
     emb_df.drop(columns="index", inplace=True)
+    
     names = {
-        x: "emb_node2vec_" + str(x) for x in range(parameters["node2vec"]["dimensions"])
+        x: f"emb_node2vec_p{p}q{q}_" + str(x) for x in range(parameters["dimensions"])
     }
     emb_df.rename(columns=names, inplace=True)
     return emb_df
-
 
 def _load_networkx_graph(X: pd.DataFrame):
     return nx.from_pandas_edgelist(df=X, source="in", target="out")
