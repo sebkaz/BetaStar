@@ -118,3 +118,7 @@ def _one_computation(features, X_train, X_test, parameters, p=1, q=1):
                     else:
                         results["value"].append(func(X_test[target], y_pred).statistic)
     return pd.DataFrame(results), predictions
+
+
+def mutual_information(X_train, X_test, parameters):
+    pass
