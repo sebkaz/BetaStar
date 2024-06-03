@@ -1,21 +1,16 @@
 # nodes and edges
 graph:
-  type: pandas.CSVDataSet
-  filepath: data/01_raw/edges/edge_grid.dat
-  load_args:
-    engine: python
-    sep: '\t'
-    names: [in, out]
+  type: pandas.ParquetDataSet
+  filepath: data/01_raw/edges/edge_grid.parquet
 
-# community and non community features
 data:
-  type: pandas.CSVDataSet
-  filepath: data/01_raw/data/grid.csv
+  type: pandas.ParquetDataSet
+  filepath: data/01_raw/data/grid.parquet
 
-# preprocessed graph - start from 0
+#preprocessed graph - start from 0
 graph_pre:
-  type: pandas.CSVDataSet
-  filepath: data/02_graphs/grid_pre.csv
+  type: pandas.ParquetDataSet
+  filepath: data/02_graphs/grid_pre.parquet
 
 # for struct2vec you need in and out columns without header and with space as separator
 graph_struct:
@@ -28,10 +23,10 @@ graph_struct:
 
 # node2vec embedding data 
 embedded_graph_node2vec:
-  type: pandas.CSVDataSet
-  filepath: data/03_embeddings/grid_node2vec_embedding.csv
+  type: pandas.ParquetDataSet
+  filepath: data/03_embeddings/grid_node2vec_embedding.parquet
 
-# struc2vec embedding data
+# # struc2vec embedding data
 embedded_graph_struc2vec:
   type: pandas.CSVDataSet
   filepath: struc2vec/emb/grid.emb
@@ -39,14 +34,12 @@ embedded_graph_struc2vec:
     engine: python
     sep: ' '
     skiprows: 1
-# after preprocessing data for models
+# # after preprocessing data for models
 model_data:
-  type: pandas.CSVDataSet
-  filepath: data/04_models/grid_model.csv
+  type: pandas.ParquetDataSet
+  filepath: data/04_models/grid_model.parquet
 
-################### EMBEDDINGS END
-
-############# TASK 1 ########################
+# ############# TASK 1 ########################
 
 X_train_linear:
   type: pandas.ParquetDataSet
@@ -61,12 +54,12 @@ task1_predictions:
   filepath: data/04_models/grid_task1_predictions.pickle
 
 task1_results:
-  type: pandas.CSVDataSet
-  filepath: data/05_reporting/grid_task1.csv
+  type: pandas.ParquetDataSet
+  filepath: data/05_reporting/grid_task1.parquet
 
-######### TASK 2 #######################
+# ############# TASK 2 ########################
 
-# train test for classification models
+# # train test for classification models
 X_train:
   type: pandas.ParquetDataSet
   filepath: data/04_models/grid_X_train.parquet
@@ -83,19 +76,17 @@ y_test:
   type: pandas.ParquetDataSet
   filepath: data/04_models/grid_y_test.parquet
 
-# models for each features set and for (sum of) embeddings
+# # models for each features set and for (sum of) embeddings
 task2_models:
   type: pickle.PickleDataSet
   filepath: data/04_models/grid_task2_models.pickle
 
-# metrics from classification models for all features
+# # metrics from classification models for all features
 task2_results:
-  type: pandas.CSVDataSet
-  filepath: data/05_reporting/grid_task2.csv
-  save_args:
-    index: False
+  type: pandas.ParquetDataSet
+  filepath: data/05_reporting/grid_task2.parquet
 
-############ TASK 3 #########################
+# ############ TASK 3 #########################
 
 # random forest feature importance for all features
 forest_FI:
@@ -104,6 +95,5 @@ forest_FI:
 
 # results for permutation importance for all features
 models_results_pi:
-  type: pandas.CSVDataSet
-  filepath: data/05_reporting/grid_task3.csv
-
+  type: pandas.ParquetDataSet
+  filepath: data/05_reporting/grid_task3.parquet

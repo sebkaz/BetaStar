@@ -1,7 +1,8 @@
-# if set false graph edges start from 1 - julia case
-zero_based_graph: false
-
 env: base
+
+embeddings:
+  - node2vec
+  - struc2vec
 
 emb_prefix: emb
 
@@ -9,23 +10,18 @@ test_features:
   - participation
   - in_mod_deg
 
-embeddings:
-  - node2vec
-  - struc2vec
-
-# parameters for node2vec
 node2vec:
-  dimensions: 16
+  dim: 16
   walk_length: 50
-  num_walks: 10
+  window: 10
   p: 1
   q: 1
-  workers: 1
+  workers: 6
   seed: 123
 
 test_size: 0.3
 
-# logistic regression with l2 penalty
+# # logistic regression with l2 penalty
 log_reg:
   penalty: l2
   C: 1.0

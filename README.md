@@ -1,8 +1,8 @@
 # Classification Supported by Community-Aware Node Features
 
 To perform computations, we use the Python Kedro framework. 
-This framework is designed to operate on Python versions up to and including 3.10.
-The Python environment can be managed through pip or the Conda environment manager can be used as well.
+This framework is designed to operate on Python3.9 and Python3.10 version.
+The Python environment can be managed through `pip` or the Conda environment manager can be used as well.
 
 ```bash
 python3.10 -m venv venv 
@@ -13,7 +13,7 @@ pip install -r src/requirements.txt
 
 ## Graphs datasets
 
-We possess a total of 10 datasets, each of which comprises two files situated in the `data/01_raw/` folder. 
+We possess a total of 11 datasets, each of which comprises two files situated in the `data/01_raw/` folder. 
 The initial file represents the graph in the edge list format, which is located in `data/01_raw/edges`. 
 The second file consists of details concerning community and non-community features and is located in `data/01_raw/data`.
 
@@ -30,7 +30,7 @@ We tried to select a collection of graphs with different properties (density, co
 ## Kedro pipelines
 
 We introduce four pipelines. You can find them in the `src/betastar/pipelines` folder. 
-1. embeddings - Preprocessing of the graph and generation of `node2vec` embeddings.
+1. embeddings - Preprocessing of the graph and generation of fast `node2vec` embeddings.
 2. task1 - information overlap between community-aware and classical features.
 3. task2 - one-way predictive power of community-aware and classical features.
 4. task3 - combined variable importance for prediction of community-aware and classical features.
