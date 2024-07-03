@@ -1,5 +1,6 @@
 env: base
 
+# embeddings parameters
 embeddings:
   - node2vec
   - struc2vec
@@ -18,6 +19,8 @@ node2vec:
   q: 1
   workers: 6
   seed: 123
+
+# END embeddings parameters 
 
 test_size: 0.3
 

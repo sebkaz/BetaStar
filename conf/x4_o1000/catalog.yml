@@ -3,11 +3,7 @@ graph:
   type: pandas.ParquetDataSet
   filepath: data/01_raw/edges/edge_x4.parquet
 
-data:
-  type: pandas.ParquetDataSet
-  filepath: data/01_raw/data/x4.parquet
-
-#preprocessed graph - start from 0
+# preprocessed graph - start from 0
 graph_pre:
   type: pandas.ParquetDataSet
   filepath: data/02_graphs/x4_pre.parquet
@@ -20,6 +16,12 @@ graph_struct:
     sep: ' '
     header: False
     index: False
+
+data:
+  type: pandas.ParquetDataSet
+  filepath: data/01_raw/data/x4.parquet
+
+
 
 # node2vec embedding data 
 embedded_graph_node2vec:

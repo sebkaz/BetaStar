@@ -27,6 +27,15 @@ def preprocess_graph(data: pd.DataFrame) -> pd.DataFrame:
     """check if the graph is zero based
     if not, change it to zero based
     I assume that it starts from 1 (like in julia)
+    
+    Params: 
+    ------
+
+    data: pd.DataFrame with edges two columns ('in', 'out')
+
+    return
+    ------
+    modified (or not) pd.DataFrame 
     """
     if not ((0 in set(data["in"])) or (0 in set(data["out"]))):
         logger.info("Your graph edges start from 1, let's change that")
@@ -49,7 +58,7 @@ def node2vec_embedding(data: pd.DataFrame, parameters: Dict[str, Any]) -> pd.Dat
 
     """
     logger.info(
-        f"Using node2vec to embed the graph \
+        f"Using fast node2vec to embed the graph \
         with {parameters['node2vec']['dim']} dimensions"
     )
     if "node2vec" not in parameters["embeddings"]:
@@ -66,36 +75,49 @@ def node2vec_embedding(data: pd.DataFrame, parameters: Dict[str, Any]) -> pd.Dat
     return emb_df
 
 
-def concat_data(data: pd.DataFrame, parameters: Dict[str, Any]) -> pd.DataFrame:
+def concat_data(data: pd.DataFrame,
+                parameters: Dict[str, Any],
+                n2vdata : pd.DataFrame,
+                s2vdata : pd.DataFrame,
+                ) -> pd.DataFrame:
     """Concatenation for our features, embeddings and structural embeddings"""
-    emb_list = parameters["embeddings"]
-    emb_files = [f"embedded_graph_{i}" for i in emb_list]
-    metadata = bootstrap_project(PROJECT_PATH)
-    with KedroSession.create(
-        package_name=metadata.package_name,
-        project_path=PROJECT_PATH,
-        env=parameters["env"],
-    ) as session:
-        context = session.load_context()
-        catalog = context.catalog
+    # emb_list = parameters["embeddings"]
 
-    for ix, emb in enumerate(emb_list):
-        if ix == 0:
-            if emb == "struc2vec":
-                df_emb = catalog.load(emb_files[ix])
-                df_emb = _preprocess_struc(df_emb)
-            else:
-                df_emb = catalog.load(emb_files[ix])
-            emb_con = pd.concat([data, df_emb], axis="columns")
-        else:
-            if emb == "struc2vec":
-                df_emb = catalog.load(emb_files[ix])
-                df_emb = _preprocess_struc(df_emb)
-            else:
-                df_emb = catalog.load(emb_files[ix])
-            emb_con = pd.concat([emb_con, df_emb], axis="columns")
+    if ('node2vec' in parameters['embeddings']) and (not n2vdata.empty):
+        data = pd.concat([data, n2vdata], axis="columns")
 
-    return emb_con
+    if ('struc2vec' in parameters['embeddings']) and (not s2vdata.empty):
+        s2vdata = _preprocess_struc(s2vdata)
+        data = pd.concat([data, s2vdata], axis="columns")
+
+    return data
+    # emb_files = [f"embedded_graph_{i}" for i in emb_list]
+    # metadata = bootstrap_project(PROJECT_PATH)
+    # with KedroSession.create(
+    #     package_name=metadata.package_name,
+    #     project_path=PROJECT_PATH,
+    #     env=parameters["env"],
+    # ) as session:
+    #     context = session.load_context()
+    #     catalog = context.catalog
+
+    # for ix, emb in enumerate(emb_list):
+    #     if ix == 0:
+    #         if emb == "struc2vec":
+    #             df_emb = catalog.load(emb_files[ix])
+    #             df_emb = _preprocess_struc(df_emb)
+    #         else:
+    #             df_emb = catalog.load(emb_files[ix])
+    #         emb_con = pd.concat([data, df_emb], axis="columns")
+    #     else:
+    #         if emb == "struc2vec":
+    #             df_emb = catalog.load(emb_files[ix])
+    #             df_emb = _preprocess_struc(df_emb)
+    #         else:
+    #             df_emb = catalog.load(emb_files[ix])
+    #         emb_con = pd.concat([emb_con, df_emb], axis="columns")
+
+    # return emb_con
 
 
 def _preprocess_struc(df: pd.DataFrame) -> pd.DataFrame:

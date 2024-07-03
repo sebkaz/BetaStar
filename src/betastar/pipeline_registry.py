@@ -26,5 +26,5 @@ def register_pipelines() -> Dict[str, Pipeline]:
         "t1": task1_pipeline,
         "t2": task2_pipeline,
         "t3": task3_pipeline,
-        "__default__": embeddings_pipeline + task1_pipeline,
+        "__default__": task1_pipeline,
     }
