@@ -64,7 +64,7 @@ kedro run --pipeline=embeddings
 Struc2vec embeddings are generated using the `struc2vec` package added and modified (for python 3.10 env) separatly.
 
 
-Urgent: this procedure takes a lot of time, so we recommend to use the prepared input files from `struct2vec/emb` folder.
+Urgent: this procedure takes a lot of time, so we recommend to use the prepared input files from `struc2vec/emb` folder.
 
 
 The embeddings are generated using the following command:
