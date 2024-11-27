@@ -1,10 +1,11 @@
 """Project settings. There is no need to edit this file unless you want to change values
 from the Kedro defaults. For further information, including these default values, see
-https://kedro.readthedocs.io/en/stable/kedro_project_setup/settings.html."""
+https://docs.kedro.org/en/stable/kedro_project_setup/settings.html."""
 
 # Instantiated project hooks.
 # For example, after creating a hooks.py and defining a ProjectHooks class there, do
-# from betastar.hooks import ProjectHooks
+# from kedro_test.hooks import ProjectHooks
+# Hooks are executed in a Last-In-First-Out (LIFO) order.
 # HOOKS = (ProjectHooks(),)
 
 # Installed plugins for which to disable hook auto-registration.
@@ -23,19 +24,23 @@ https://kedro.readthedocs.io/en/stable/kedro_project_setup/settings.html."""
 
 # Class that manages how configuration is loaded.
 # from kedro.config import OmegaConfigLoader
+
 # CONFIG_LOADER_CLASS = OmegaConfigLoader
+
 # Keyword arguments to pass to the `CONFIG_LOADER_CLASS` constructor.
-# CONFIG_LOADER_ARGS = {
-#       "config_patterns": {
-#           "spark" : ["spark*/"],
-#           "parameters": ["parameters*", "parameters*/**", "**/parameters*"],
-#       }
-# }
+CONFIG_LOADER_ARGS = {
+    "base_env": "base",
+    "default_run_env": "local",
+    # "config_patterns": {
+    #     "spark" : ["spark*/"],
+    #     "parameters": ["parameters*", "parameters*/**", "**/parameters*"],
+    # }
+}
 
 # Class that manages Kedro's library components.
 # from kedro.framework.context import KedroContext
 # CONTEXT_CLASS = KedroContext
 
-#  Class that manages the Data Catalog.
+# Class that manages the Data Catalog.
 # from kedro.io import DataCatalog
 # DATA_CATALOG_CLASS = DataCatalog

@@ -6,18 +6,23 @@
 <!---
 Please describe your modular pipeline here.
 -->
-These pipeline describes the process of creating embeddings from a graph files. 
+These pipeline describes the process of creating embeddings from a graph. 
+We save all results as a parquet type file.
+
 The pipeline is composed of the following steps (nodes):
-1. preprocess graph: In python graph object you should start node ids from 0.
+1. preprocess graph: In python graph you should count node ids from 0.
 This step will preprocess the graph to make sure that the graph is in the correct format.
 2. Because of different graph formats for struc2vec we convert the graph file to the correct format. (see description below)
 3. Embeddings with node2vec procedure. 
-4. 
 
-#### node preprocess 1
 
-graphs edges *.dat file with input node \\t output node pairs. 
-The file should be in the following format:
+#### graph preprocess
+
+From `conf/base/catalog.yml` you have read configuration for the input graph file. 
+All graph files should be stored in `data/01_raw/edges` directory.
+Graphs edges *.dat file with input node \\t output node pairs. 
+
+For example:
 ```text
 1	16495
 2	2789
@@ -25,27 +30,15 @@ The file should be in the following format:
 2	3678
 ...
 ```
-In `conf/base/catalog.yml` you have read configuration for the input graph file. 
-All graph files should be stored in `data/01_raw/edges` directory.
+
+Config 
 ```yaml
 graph:
-  type: pandas.CSVDataSet
-  filepath: data/01_raw/edges/edge_facebook.dat
-  load_args:
-    engine: python
-    sep: '\t'
-    names: [in, out]
-
+  type: pandas.ParquetDataset
+  filepath: data/01_raw/edges/edge_facebook.parquet
 ```
-Parameters are described in `conf/base/parameters.yml` file.
-For preprocessing there is just a one parameter:
-```yaml
-zero_based_graph: true
-```
-If `zero_based_graph` is set to `true` then the graph will be preprocessed to make sure that the node ids start from 0.
-preprocessing change each `node_id` to `node_id - 1`.
 
-Output is a graph file in the same format as the input graph file.
+Output is a graph file in the same format as the input graph file but with start ids from zero.
 ```text
 in,out
 0,16494
@@ -55,22 +48,16 @@ in,out
 ```
 In `conf/base/catalog.yml` you have read configuration for the output graph file.
 ```yaml
+#preprocessed graph - start from 0
 graph_pre:
-  type: pandas.CSVDataSet
-  filepath: data/02_graphs/facebook_pre.csv
+  type: pandas.ParquetDataset
+  filepath: data/02_graphs/facebook_pre.parquet
 ```
-File is saved in `data/02_graphs/facebook_pre.csv` directory.
+
 
 #### Node preprocess 2
-In the case of struc2vec we need to convert the graph file to the following format (in \\s out - start from 0):
-```text
-0 16494
-1 2788
-1 3653
-1 3677
-1 4902
-1 5214
-```
+In the case of struc2vec we need to convert the graph file to the following format (in \\s out - start from 0) with space as separator.
+
 Conversion file is saved (as in `conf/base/catalog.yml` file) in `struc2vec/graph/beta/facebook.csv`.
 ```yaml
 graph_struct:
@@ -88,7 +75,6 @@ embeddings:
   - node2vec
   - struc2vec
 ```
-If You choose other type of embeddings then change pipeline file with new nodes. 
 
 ##### Struc2vec embeddings must bed done idependently for the kedro pipeline.
 To run struc2vec embeddings you should run the following command:
@@ -111,9 +97,9 @@ embedded_graph_node2vec:
 All parameters for node2vec embeddings are set in `conf/base/parameters.yml` file:
 ```yaml
 node2vec:
-  dimensions: 16
+  dim: 16
   walk_length: 50
-  num_walks: 10
+  window: 10
   p: 1
   q: 1
   workers: 1
@@ -130,7 +116,7 @@ model_data:
   type: pandas.CSVDataSet
   filepath: data/04_models/facebook_model_data.csv
 ```
-#### Preprocessing 
+#### NaN Preprocessing 
 
 In this step we preprocess NaN data in `target` and other features.
 

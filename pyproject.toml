@@ -1,18 +1,26 @@
 [tool.kedro]
 package_name = "betastar"
 project_name = "betastar"
-kedro_init_version = "0.18.11"
+kedro_init_version = "0.19.10"
+tools = "['Linting']"
+example_pipeline = "False"
+source_dir = "src"
 
+[tool.ruff]
+line-length = 88
+show-fixes = true
+select = [ "F", "W", "E", "I", "UP", "PL", "T201",]
+ignore = [ "E501",]
+
+[tool.ruff.format]
+docstring-code-format = true
 
 [tool.isort]
 profile = "black"
 
-[tool.pytest.ini_options]
-addopts = """
---cov-report term-missing \
---cov src/betastar -ra"""
+[tool.setuptools.dynamic.version]
+attr = "kedro_test.__version__"
 
-[tool.coverage.report]
-fail_under = 0
-show_missing = true
-exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
+[tool.setuptools.packages.find]
+where = [ "src",]
+namespaces = false

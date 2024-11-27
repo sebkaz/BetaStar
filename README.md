@@ -1,26 +1,27 @@
 # Classification Supported by Community-Aware Node Features
 
 To perform computations, we use the Python Kedro framework. 
-This framework is designed to operate on Python3.9 and Python3.10 version.
+This framework is designed to operate on Python > 3.11 version.
 The Python environment can be managed through `pip` or the Conda environment manager can be used as well.
 
 ```bash
-python3.10 -m venv venv 
+python3.11 -m venv venv 
 source venv/bin/activate
 pip install --upgrade pip setuptools
-pip install -r src/requirements.txt
+pip install -r requirements.lock
 ```
 
 ## Graphs datasets
 
-We possess a total of 11 datasets, each of which comprises two files situated in the `data/01_raw/` folder. 
-The initial file represents the graph in the edge list format, which is located in `data/01_raw/edges`. 
+We possess a total of `11 datasets`, each of which comprises two files situated in the `data/01_raw/` folder. 
+The initial file represents the graph in the edge list format, which is located in `data/01_raw/edges`.
 The second file consists of details concerning community and non-community features and is located in `data/01_raw/data`.
+You can generate this features by julia codes from `julia_codes` folder.
 
 We consider undirected, connected, and simple (no loops nor parallel edges are allowed) graphs so that all node features are well defined and all methods that we use work properly. 
-In each graph, we have some “ground-truth” labels for the nodes which is used to benchmark classification algorithms.
+In each graph, we have some `ground-truth' labels for the nodes which is used to benchmark classification algorithms.
 We used two families of graphs. 
-The first family consists of synthetic networks.
+The first family consists of synthetic networks from ABCD+o generator.
 The main goal of experiments on this family is to perform a sanity test to evaluate whether the basic functionality of community-aware node features is working correctly or not. 
 In these networks, the target class depends on the overall community structure of the graph.
 
@@ -38,7 +39,10 @@ We tried to select a collection of graphs with different properties (density, co
 
 ## Kedro pipelines
 
-We introduce four pipelines. You can find them in the `src/betastar/pipelines` folder. 
+We introduce four pipelines. 
+
+You can find them in the `src/betastar/pipelines` folder. 
+
 1. embeddings - Preprocessing of the graph and generation of fast `node2vec` embeddings.
 2. task1 - information overlap between community-aware and classical features.
 3. task2 - one-way predictive power of community-aware and classical features.
@@ -46,7 +50,7 @@ We introduce four pipelines. You can find them in the `src/betastar/pipelines` f
 
 The main configuration file is `conf/base/catalog.yml` and it is set for the 'facebook' dataset.
 
-To run the pipeline for a specific dataset, you must activate the corresponding environment. 
+To run the pipeline for a specific dataset, you must activate the corresponding kedro environment. 
 For instance, if you want to work with the `amazon` dataset, execute command with --env parameter:
 ```base
 kedro run --env=amazon

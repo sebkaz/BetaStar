@@ -1,8 +1,3 @@
-"""
-This is a boilerplate pipeline 'embeddings'
-generated using Kedro 0.18.11
-"""
-
 import logging
 import pandas as pd
 import numpy as np
@@ -13,8 +8,6 @@ from typing import Any, Dict
 from fastnode2vec import Node2Vec as n2v
 from fastnode2vec import Graph
 from sklearn.impute import SimpleImputer
-from kedro.framework.session import KedroSession
-from kedro.framework.startup import bootstrap_project
 
 
 logger = logging.getLogger(__name__)
@@ -91,33 +84,6 @@ def concat_data(data: pd.DataFrame,
         data = pd.concat([data, s2vdata], axis="columns")
 
     return data
-    # emb_files = [f"embedded_graph_{i}" for i in emb_list]
-    # metadata = bootstrap_project(PROJECT_PATH)
-    # with KedroSession.create(
-    #     package_name=metadata.package_name,
-    #     project_path=PROJECT_PATH,
-    #     env=parameters["env"],
-    # ) as session:
-    #     context = session.load_context()
-    #     catalog = context.catalog
-
-    # for ix, emb in enumerate(emb_list):
-    #     if ix == 0:
-    #         if emb == "struc2vec":
-    #             df_emb = catalog.load(emb_files[ix])
-    #             df_emb = _preprocess_struc(df_emb)
-    #         else:
-    #             df_emb = catalog.load(emb_files[ix])
-    #         emb_con = pd.concat([data, df_emb], axis="columns")
-    #     else:
-    #         if emb == "struc2vec":
-    #             df_emb = catalog.load(emb_files[ix])
-    #             df_emb = _preprocess_struc(df_emb)
-    #         else:
-    #             df_emb = catalog.load(emb_files[ix])
-    #         emb_con = pd.concat([emb_con, df_emb], axis="columns")
-
-    # return emb_con
 
 
 def _preprocess_struc(df: pd.DataFrame) -> pd.DataFrame:
@@ -140,9 +106,8 @@ def _preprocess_struc(df: pd.DataFrame) -> pd.DataFrame:
     return X.reset_index(drop=True)
 
 
-def preprocessing(data):
-    """Preprocessing for our data, we drop the missing
-    values and fill the rest with 0
+def NaN_preprocessing(data):
+    """Preprocessing for our data, we drop the NaN in the target column and fill the missing value with 0
     """
     df = data.copy()
     df.dropna(subset=["target"], inplace=True)

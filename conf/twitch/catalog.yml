@@ -1,32 +1,32 @@
 graph:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/01_raw/edges/edge_twitch.parquet
 
 data:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/01_raw/data/twitch.parquet
 
 #preprocessed graph - start from 0
 
 graph_pre:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/02_graphs/twitch_pre.parquet
   save_args:
     compression: GZIP
 
 graph_struct:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: struc2vec/graph/beta/twitch.parquet
   save_args:
     compression: GZIP
 
 embedded_graph_node2vec:
-  type: pandas.CSVDataSet
+  type: pandas.CSVDataset
   filepath: data/03_embeddings/twitch_node2vec_embedding.csv
 
 # struc2vec embedding data
 embedded_graph_struc2vec:
-  type: pandas.CSVDataSet
+  type: pandas.CSVDataset
   filepath: struc2vec/emb/twitch.emb
   load_args:
     engine: python
@@ -35,7 +35,7 @@ embedded_graph_struc2vec:
 
 # # after preprocessing data for models
 model_data:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/twitch_model.parquet
   save_args:
     compression: GZIP
@@ -43,58 +43,58 @@ model_data:
 # ############# TASK 1 ########################
 
 X_train_linear:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/twitch_X_train_task1.parquet
 
 X_test_linear:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/twitch_X_test_task1.parquet
 
 task1_predictions:
-  type: pickle.PickleDataSet
+  type: pickle.PickleDataset
   filepath: data/04_models/twitch_task1_predictions.pickle
 
 task1_results:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/05_reporting/twitch_task1.parquet
 
 # ############# TASK 2 ########################
 
 # # train test for classification models
 X_train:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/twitch_X_train.parquet
 
 y_train: 
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/twitch_y_train.parquet
 
 X_test:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/twitch_X_test.parquet
 
 y_test:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/twitch_y_test.parquet
 
 # # models for each features set and for (sum of) embeddings
 task2_models:
-  type: pickle.PickleDataSet
+  type: pickle.PickleDataset
   filepath: data/04_models/twitch_task2_models.pickle
 
 # # metrics from classification models for all features
 task2_results:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/05_reporting/twitch_task2.parquet
 
 # ############ TASK 3 #########################
 
 # random forest feature importance for all features
 forest_FI:
-  type: pickle.PickleDataSet
+  type: pickle.PickleDataset
   filepath: data/04_models/twitch_forest_FI.pickle
 
 # results for permutation importance for all features
 models_results_pi:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/05_reporting/twitch_task3.parquet

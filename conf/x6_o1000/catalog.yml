@@ -1,20 +1,20 @@
 # nodes and edges
 graph:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/01_raw/edges/edge_x6.parquet
 
 data:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/01_raw/data/x6.parquet
 
 #preprocessed graph - start from 0
 graph_pre:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/02_graphs/x6_pre.parquet
 
 # for struct2vec you need in and out columns without header and with space as separator
 graph_struct:
-  type: pandas.CSVDataSet
+  type: pandas.CSVDataset
   filepath: struc2vec/graph/beta/x6.csv
   save_args:
     sep: ' '
@@ -23,12 +23,12 @@ graph_struct:
 
 # node2vec embedding data 
 embedded_graph_node2vec:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/03_embeddings/x6_node2vec_embedding.parquet
 
 # # struc2vec embedding data
 embedded_graph_struc2vec:
-  type: pandas.CSVDataSet
+  type: pandas.CSVDataset
   filepath: struc2vec/emb/x6.emb
   load_args:
     engine: python
@@ -36,64 +36,64 @@ embedded_graph_struc2vec:
     skiprows: 1
 # # after preprocessing data for models
 model_data:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/x6_model.parquet
 
 # ############# TASK 1 ########################
 
 X_train_linear:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/x6_X_train_task1.parquet
 
 X_test_linear:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/x6_X_test_task1.parquet
 
 task1_predictions:
-  type: pickle.PickleDataSet
+  type: pickle.PickleDataset
   filepath: data/04_models/x6_task1_predictions.pickle
 
 task1_results:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/05_reporting/x6_task1.parquet
 
 # ############# TASK 2 ########################
 
 # # train test for classification models
 X_train:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/x6_X_train.parquet
 
 y_train: 
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/x6_y_train.parquet
 
 X_test:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/x6_X_test.parquet
 
 y_test:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/04_models/x6_y_test.parquet
 
 # # models for each features set and for (sum of) embeddings
 task2_models:
-  type: pickle.PickleDataSet
+  type: pickle.PickleDataset
   filepath: data/04_models/x6_task2_models.pickle
 
 # # metrics from classification models for all features
 task2_results:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/05_reporting/x6_task2.parquet
 
 # ############ TASK 3 #########################
 
 # random forest feature importance for all features
 forest_FI:
-  type: pickle.PickleDataSet
+  type: pickle.PickleDataset
   filepath: data/04_models/x6_forest_FI.pickle
 
 # results for permutation importance for all features
 models_results_pi:
-  type: pandas.ParquetDataSet
+  type: pandas.ParquetDataset
   filepath: data/05_reporting/x6_task3.parquet

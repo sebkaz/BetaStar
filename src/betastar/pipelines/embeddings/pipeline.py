@@ -3,7 +3,7 @@ from .nodes import (
     preprocess_graph,
     node2vec_embedding,
     concat_data,
-    preprocessing,
+    NaN_preprocessing,
 )
 
 
@@ -31,7 +31,7 @@ def create_pipeline(**kwargs) -> Pipeline:
                 name="concat_data",
             ),
             node(
-                func=preprocessing,
+                func=NaN_preprocessing,
                 inputs="concat_data",
                 outputs="model_data",
                 name="preprocessing",

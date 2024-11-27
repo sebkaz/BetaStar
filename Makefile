@@ -13,7 +13,7 @@ run-all:
 	kedro run --env=x6_o1000 --runner=ParallelRunner &&\
 	kedro run --env=x7_o1000 --runner=ParallelRunner
 
-run-all-f:
+run-all-t1:
 	kedro run --pipeline=t1 --runner=ParallelRunner &&\
 	kedro run --env=grid --pipeline=t1 --runner=ParallelRunner  &&\
 	kedro run --env=lastfm --pipeline=t1 --runner=ParallelRunner &&\
@@ -25,9 +25,26 @@ run-all-f:
 	kedro run --env=x6_o1000 --pipeline=t1 --runner=ParallelRunner &&\
 	kedro run --env=x7_o1000 --pipeline=t1 --runner=ParallelRunner
 
-run-all-i:
-	kedro run --env=x3_o1000 --pipeline=t1 --runner=ParallelRunner &&\
-	kedro run --env=x4_o1000 --pipeline=t1 --runner=ParallelRunner &&\
-	kedro run --env=x5_o1000 --pipeline=t1 --runner=ParallelRunner &&\
-	kedro run --env=x6_o1000 --pipeline=t1 --runner=ParallelRunner &&\
-	kedro run --env=x7_o1000 --pipeline=t1 --runner=ParallelRunner
+run-all-t2:
+	kedro run --pipeline=t2 --runner=ParallelRunner &&\
+	kedro run --env=grid --pipeline=t2 --runner=ParallelRunner  &&\
+	kedro run --env=lastfm --pipeline=t2 --runner=ParallelRunner &&\
+	kedro run --env=reddit --pipeline=t2 --runner=ParallelRunner &&\
+	kedro run --env=amazon --pipeline=t2 --runner=ParallelRunner &&\
+	kedro run --env=x3_o1000 --pipeline=t2 --runner=ParallelRunner &&\
+	kedro run --env=x4_o1000 --pipeline=t2 --runner=ParallelRunner &&\
+	kedro run --env=x5_o1000 --pipeline=t2 --runner=ParallelRunner &&\
+	kedro run --env=x6_o1000 --pipeline=t2 --runner=ParallelRunner &&\
+	kedro run --env=x7_o1000 --pipeline=t2 --runner=ParallelRunner
+
+run-all-t3:
+	kedro run --pipeline=t3 --runner=ParallelRunner &&\
+	kedro run --env=grid --pipeline=t3 --runner=ParallelRunner  &&\
+	kedro run --env=lastfm --pipeline=t3 --runner=ParallelRunner &&\
+	kedro run --env=reddit --pipeline=t3 --runner=ParallelRunner &&\
+	kedro run --env=amazon --pipeline=t3 --runner=ParallelRunner &&\
+	kedro run --env=x3_o1000 --pipeline=t3 --runner=ParallelRunner &&\
+	kedro run --env=x4_o1000 --pipeline=t3 --runner=ParallelRunner &&\
+	kedro run --env=x5_o1000 --pipeline=t3 --runner=ParallelRunner &&\
+	kedro run --env=x6_o1000 --pipeline=t3 --runner=ParallelRunner &&\
+	kedro run --env=x7_o1000 --pipeline=t3 --runner=ParallelRunner
